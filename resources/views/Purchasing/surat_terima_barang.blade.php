@@ -264,7 +264,7 @@ Dashboard E-Report
                                             @if($item->status_po == 1)
                                             <p>Sudah Disetujui</p>
                                             @else
-                                            <button data-item="{{$item->id_pp}}" type="button" onclick="get_data(this)"
+                                            <button data-item="{{$item->id_po}}" type="button" onclick="get_data(this)"
                                                 class="btn btn-success btn-sm pull-right"><i class="fa fa-check"
                                                     title="Verifikasi"></i>
                                             </button>

@@ -192,7 +192,7 @@ Dashboard Purchasing
             <div class="modal-header" style="background: #1aa3ff">
                 <h2 class="modal-title" id="myModalLabel" style="color: whitesmoke;">Tambah Supplier</h2>
             </div>
-            <form id="verif_invoice" class="form-horizontal" method="POST">
+            <form id="verif_invoice" action="{{url('/Purchasing/update_supp')}}" class="form-horizontal" method="POST">
                 <div class="modal-body">
                     {{csrf_field()}}
                     <div class="form-group">
@@ -225,7 +225,7 @@ Dashboard Purchasing
 
                 </div>
                 <div class="modal-footer" id="modal_footer">
-                    <!-- <button type="submit" class="btn btn-success">Simpan</button> -->
+                    <button type="button" onclick="return konfirmasi2()" class="btn btn-success">Simpan</button> 
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Kembali</button>
                 </div>
             </form>
@@ -256,6 +256,33 @@ function modal_supp(button) {
 }
 
 function konfirmasi() {
+    event.preventDefault(); // prevent form submit
+    var form = event.target.form; // storing the form
+
+    Swal.fire({
+        title: 'Apakah Data yang di Masukan Sudah Benar ?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5cb85c',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Batal',
+        allowOutsideClick: false,
+    }).then((result) => {
+        if (result.value) {
+            form.submit();
+        } else {
+            Swal.fire({
+                title: "Batal memverifikasi",
+                type: "error",
+                allowOutsideClick: false,
+            })
+        }
+    })
+
+}
+
+function konfirmasi2() {
     event.preventDefault(); // prevent form submit
     var form = event.target.form; // storing the form
 

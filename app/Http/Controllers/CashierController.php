@@ -91,6 +91,7 @@ class CashierController extends Controller
                 }
             }
             $tanggalskr = date('Y-m-d H:i:s');
+
             $transaksi = DB::table('trans')
                 ->where('id_trans', $id_transaksi)
                 ->get();
@@ -98,7 +99,7 @@ class CashierController extends Controller
                 ->join('menu_restoran', 'transdet.id_menu', 'menu_restoran.id_menu')
                 ->where('id_trans', $id_transaksi)
                 ->get();
-
+            //dd($transaksi,$transaksi_detail);
             set_time_limit(600);
             $pdf = PDF::setOptions([
                 'enable_remote' => true,
@@ -106,7 +107,7 @@ class CashierController extends Controller
             ])
                 ->loadView('cetak_struk',
                     compact('transaksi', 'transaksi_detail', 'bayar', 'kembalian'))
-                ->setPaper('a7', 'potrait');
+                ->setPaper('a6', 'potrait');
             $name = 'TRX - ' . uniqid() . '.pdf';
             return $pdf->download($name);
             //return redirect()->back()->with('message', 'Data Berhasil Disimpan');

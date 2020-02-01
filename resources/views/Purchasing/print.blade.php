@@ -106,7 +106,7 @@
                     </td>
                     <td align="center" style="width: inherit;">
                         <center>
-                            <h2>Purchasing Voucher</h2>
+                            <h2>Payment Voucher</h2>
                         </center>
                     </td>
                     <td align="left" style="width: 20%;">
@@ -130,7 +130,7 @@
         <table width="100%">
             <tbody>
                 <tr>
-                    <td colspan="4" align="right"> No. Purchasing Voucher : {{$item->no_payment_voucher}}</td>
+                    <td colspan="4" align="right"> No. Payment Voucher : {{$item->no_payment_voucher}}</td>
                 </tr>
             </tbody>
         </table>

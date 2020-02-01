@@ -179,13 +179,13 @@ Dashboard Purchasing
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!--<div class="form-group">
                                     <label class="col-sm-4 control-label">
                                         Ket. Barang</label>
                                     <div class="col-sm-7">
                                         <textarea class="form-control" id="ket_barang" name="ket_barang"></textarea>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">
                                         Qty. PP</label>

@@ -156,7 +156,7 @@ Dashboard E-Report
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!--<div class="form-group">
                                     <label class="col-sm-4 control-label">
                                         Supplier</label>
                                     <div class="col-sm-7">
@@ -168,7 +168,7 @@ Dashboard E-Report
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">
                                     </label>
@@ -203,9 +203,7 @@ Dashboard E-Report
                                     <th>
                                         Nama Barang
                                     </th>
-                                    <th>
-                                        Supplier
-                                    </th>
+                                    
                                     <th>
                                         Stok / Satuan
                                     </th>
@@ -219,7 +217,6 @@ Dashboard E-Report
                                 <tr>
                                     <td>{{$no++}}</td>
                                     <td>{{$item->nama_barang}}</td>
-                                    <td>{{$item->nama_supp}}</td>
                                     <td>{{$item->stok}} / {{$item->satuan}}</td>
                                     <td>
                                         <center>
@@ -241,54 +238,6 @@ Dashboard E-Report
     </div>
 </div>
 
-<div class="modal fade bs-example-modal-lg" id="modal_supplier" tabindex="-1" role="dialog" aria-hidden="true"
-    data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header" style="background: #1aa3ff">
-                <h2 class="modal-title" id="myModalLabel" style="color: whitesmoke;">Tambah Supplier</h2>
-            </div>
-            <form id="verif_invoice" class="form-horizontal" method="POST">
-                <div class="modal-body">
-                    {{csrf_field()}}
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">ID Supplier</label>
-                        <div class="col-sm-9">
-                            <input type="text" value="{{$autonya_supp}}" class="form-control" readonly=""
-                                style="text-align:center;" autocomplete="false" name="id_supp" id="id_supp">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Nama Supplier</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" style="text-align:center;" autocomplete="false"
-                                name="nama_supp" id="nama_supp">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">No. Telp</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" style="text-align:center;" autocomplete="false"
-                                name="no_telp" id="no_telp">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Alamat</label>
-                        <div class="col-sm-9">
-                            <textarea id="alamat" name="alamat_supp" class="form-control"></textarea>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer" id="modal_footer">
-                    <button type="submit" class="btn btn-success">Simpan</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Kembali</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade bs-example-modal-lg" id="modal_barang" tabindex="-1" role="dialog" aria-hidden="true"
     data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -296,11 +245,11 @@ Dashboard E-Report
             <div class="modal-header" style="background: #1aa3ff">
                 <h2 class="modal-title" id="myModalLabel" style="color: whitesmoke;">Ubah Barang</h2>
             </div>
-            <form id="verif_invoice" class="form-horizontal" method="POST">
+            <form id="verif_invoice" class="form-horizontal" action="{{url('/Purchasing/update_barang')}}" method="POST">
                 <div class="modal-body">
                     {{csrf_field()}}
 
-                    <input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}" />
+                    <input type="hidden" name="_token" value="{{csrf_token()}}" />
 
                     <div class="form-group">
                         <label class="col-sm-4 control-label">
@@ -323,32 +272,20 @@ Dashboard E-Report
                         <label class="col-sm-4 control-label">
                             Stok</label>
                         <div class="col-sm-4">
-                            <input class="form-control numeric" type="text" name="stok_edit" id="stok_edit">
+                            <input class="form-control numeric" readonly="" type="text" name="stok_edit" id="stok_edit">
                         </div>
                         <div class="col-sm-3">
-                            <select id="satuan_edit" class="form-control" name="satuan_edit">
+                            <select id="satuan_edit" readonly="" class="form-control" name="satuan_edit">
                                 <option value="0" selected="" disabled="">-- PILIH --</option>
                                 <option value="Kg">Kg</option>
                                 <option value="Lt">Lt</option>
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">
-                            Supplier</label>
-                        <div class="col-sm-7">
-                            <select id="supplier_edit" class="form-control" name="supplier_edit">
-                                <option value="0" selected="" disabled="">-- PILIH --</option>
-
-                                @foreach($supplier as $sup)
-                                <option value="{{$sup->id_supp}}">{{$sup->nama_supp}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="modal-footer" id="modal_footer">
-                    <!-- <button type="submit" class="btn btn-success">Simpan</button> -->
+                    <button type="button" onclick="return konfirmasi2()" class="btn btn-success">Simpan</button> 
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Kembali</button>
                 </div>
             </form>
@@ -363,6 +300,25 @@ $(document).ready(function() {
     $('#dt_basic_1').dataTable();
 
 })
+const numberFormat = (value, decimals, decPoint, thousandsSep) => {
+    decPoint = decPoint || '.';
+    decimals = decimals !== undefined ? decimals : 2;
+    thousandsSep = thousandsSep || ' ';
+
+    if (typeof value === 'string') {
+        value = parseFloat(value);
+    }
+
+    let result = value.toLocaleString('en-US', {
+        maximumFractionDigits: decimals,
+        minimumFractionDigits: decimals
+    });
+
+    let pieces = result.split('.');
+    pieces[0] = pieces[0].split(',').join(thousandsSep);
+
+    return pieces.join(decPoint);
+};
 
 function modal_barang(button) {
     $('#modal_barang').modal('show');
@@ -374,7 +330,7 @@ function modal_barang(button) {
         $('#id_barang_edit').val(json[0].id_barang);
         $('#nama_barang_edit').val(json[0].nama_barang);
         $("#satuan_edit").val(json[0].satuan).change();
-        $('#stok_edit').val(json[0].stok);
+        $('#stok_edit').val(numberFormat(json[0].stok,2,',','.'));
         //$('#alamat_edit').val(json[0].nama_supp);
         $("#supplier_edit").val(json[0].id_supp).change();
 
@@ -382,6 +338,32 @@ function modal_barang(button) {
 }
 
 function konfirmasi() {
+    event.preventDefault(); // prevent form submit
+    var form = event.target.form; // storing the form
+
+    Swal.fire({
+        title: 'Apakah Data yang di Masukan Sudah Benar ?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5cb85c',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Batal',
+        allowOutsideClick: false,
+    }).then((result) => {
+        if (result.value) {
+            form.submit();
+        } else {
+            Swal.fire({
+                title: "Batal memverifikasi",
+                type: "error",
+                allowOutsideClick: false,
+            })
+        }
+    })
+
+}
+function konfirmasi2() {
     event.preventDefault(); // prevent form submit
     var form = event.target.form; // storing the form
 

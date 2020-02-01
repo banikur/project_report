@@ -134,6 +134,29 @@ class KokiController extends Controller
         }
     }
 
+    public function update_menu(Request $request)
+    {
+        try {
+            $status ='';
+            if ($request->status_edit =='on') {
+                $status='1';
+            }
+            else {
+                $status='2';
+            }
+            //dd($request->harga_edit,str_replace('.','',$request->harga_edit));
+            $ubah = DB::table('menu_restoran')->where('id_menu', $request->id_menu_edit)
+            ->update(['status_menu' => $status,'price'=>str_replace('.','',$request->harga_edit)]);
+
+            return redirect()->back()->with('message', 'Data Berhasil Disimpan');
+
+        } catch (exception $th) {
+            return redirect()->back()->with('message', 'Data GAGAL Disimpan');
+
+        }
+    }
+
+
     public function insert_pembelian(Request $request)
     {
         // dd($request->all());
@@ -168,7 +191,8 @@ class KokiController extends Controller
             ->join('categorymenu', 'menu_restoran.id_catMenu', 'categorymenu.id_catMenu')
             ->orderBy('menu_restoran.id_menu', 'ASC')->get();
         $data['master_barang'] = DB::table('master_barang')
-            ->join('supplier', 'master_barang.id_supplier', 'supplier.id_supp')->get();
+            //->join('supplier', 'master_barang.id_supplier', 'supplier.id_supp')
+            ->get();
 
         //dd($data);
 

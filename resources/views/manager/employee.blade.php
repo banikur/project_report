@@ -261,9 +261,9 @@ Dashboard E-Report
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background: #1aa3ff">
-                <h2 class="modal-title" id="myModalLabel" style="color: whitesmoke;">Ubah Barang</h2>
+                <h2 class="modal-title" id="myModalLabel" style="color: whitesmoke;">Ubah Employee</h2>
             </div>
-            <form id="verif_invoice" class="form-horizontal"  method="POST">
+            <form id="verif_invoice" class="form-horizontal" action="{{url('/Manager/update_employee')}}"  method="POST">
                 <div class="modal-body">
                     {{csrf_field()}}
                     <div class="form-group">
@@ -287,8 +287,12 @@ Dashboard E-Report
                         <label class="col-sm-4 control-label">
                             Gender</label>
                         <div class="col-sm-7">
-                            <input class="form-control" type="text" name="gender_edit" id="gender_edit"
-                                autocomplete="off">
+                           
+                                        <select class="form-control" required="" id="gender_edit" name="gender_edit">
+                                            <option> -- PILIH -- </option>
+                                            <option value="Laki-Laki"> Laki-Laki </option>
+                                            <option value="Perempuan"> Perempuan </option>
+                                        </select>
                         </div>
                     </div>
 
@@ -314,7 +318,7 @@ Dashboard E-Report
                         <label class="col-sm-4 control-label">
                             Email</label>
                         <div class="col-sm-7">
-                            <input class="form-control" type="text" name="email_edit" id="email_edit"
+                            <input class="form-control" readonly="" type="text" name="email_edit" id="email_edit"
                                 autocomplete="off">
                         </div>
                     </div>
@@ -323,7 +327,7 @@ Dashboard E-Report
                         <label class="col-sm-4 control-label">
                             Password</label>
                         <div class="col-sm-7">
-                            <input class="form-control" type="text" name="pass_edit" id="pass_edit" autocomplete="off">
+                            <input class="form-control" type="password" name="pass_edit" id="pass_edit" autocomplete="off">
                         </div>
                     </div>
 
@@ -331,15 +335,22 @@ Dashboard E-Report
                         <label class="col-sm-4 control-label">
                             Position</label>
                         <div class="col-sm-7">
-                            <input class="form-control" type="text" name="position_edit" id="position_edit"
-                                autocomplete="off">
+                                 
+                                        <select class="form-control" required="" id="position_edit" name="position_edit">
+                                            <option> -- PILIH -- </option>
+                                            <option value="4"> MANAGER </option>
+                                            <option value="2"> PURCHASING </option>
+                                            <option value="3"> KOKI </option>
+                                            <option value="1"> CASHIER </option>
+                                        </select>
+                                    
                         </div>
                     </div>
 
 
                 </div>
                 <div class="modal-footer" id="modal_footer">
-                    <button type="submit" class="btn btn-success">Simpan</button>
+                    <button type="button" onclick="return konfirmasi2()" class="btn btn-success">Simpan</button> 
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Kembali</button>
                 </div>
             </form>
@@ -369,11 +380,36 @@ function modal_employee(button) {
         $('#alamat_edit').val(json[0].alamat);
         $('#email_edit').val(json[0].email);
         $('#pass_edit').val(json[0].pass);
-        $('#position_edit').val(json[0].position);
+        $('#position_edit').val(json[0].position).change();
     });
 }
 
 function konfirmasi() {
+    event.preventDefault(); // prevent form submit
+    var form = event.target.form; // storing the form
+
+    Swal.fire({
+        title: 'Apakah Data yang di Masukan Sudah Benar ?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5cb85c',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Batal',
+        allowOutsideClick: false,
+    }).then((result) => {
+        if (result.value) {
+            form.submit();
+        } else {
+            Swal.fire({
+                title: "Batal memverifikasi",
+                type: "error",
+                allowOutsideClick: false,
+            })
+        }
+    })
+}
+    function konfirmasi2() {
     event.preventDefault(); // prevent form submit
     var form = event.target.form; // storing the form
 

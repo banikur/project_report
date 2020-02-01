@@ -171,7 +171,7 @@ Dashboard Purchasing
                                     <label class="col-sm-4 control-label">
                                         Nama Barang</label>
                                     <div class="col-sm-7">
-                                        <select class="form-control js-example-basic-single" id="id_barang" name="id_barang" onchange="get_detail_barang()" name="menu" id="menu" required>
+                                        <select class="form-control js-example-basic-single" id="id_barang" name="id_barang" name="menu" id="menu" required>
                                             <option value="" style="display: none;"></option>
                                             @foreach($master_barang as $val)
                                             <option value="{{$val->id_barang}}" )>{{$val->nama_barang}}</option>
@@ -179,13 +179,7 @@ Dashboard Purchasing
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">
-                                        Ket. Barang</label>
-                                    <div class="col-sm-7">
-                                        <textarea class="form-control" id="ket_barang" name="ket_barang"></textarea>
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">
                                         Qty. PP</label>

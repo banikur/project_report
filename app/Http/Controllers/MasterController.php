@@ -169,7 +169,8 @@ class MasterController extends Controller
             ->orderBy('menu_restoran.id_menu', 'ASC')->get();
         $data['supplier'] = DB::table('supplier')->get();
         $data['master_barang'] = DB::table('master_barang')
-            ->join('supplier', 'master_barang.id_supplier', 'supplier.id_supp')->get();
+            //->join('supplier', 'master_barang.id_supplier', 'supplier.id_supp')
+            ->get();
 
         //dd($data);
         return view('Purchasing.master_barang', $data);
@@ -202,7 +203,6 @@ class MasterController extends Controller
     {
 
         $cek = DB::table('master_barang')
-            ->join('supplier', 'master_barang.id_supplier', 'supplier.id_supp')
             ->where('master_barang.id_barang', $id_barang)->get();
         $jsonDecode = json_encode($cek);
         if ($jsonDecode != null) {
@@ -259,11 +259,11 @@ class MasterController extends Controller
                 'id_barang' => $request->id_barang,
                 'nama_barang' => $request->nama_barang,
                 'satuan' => $request->satuan,
-                'id_supplier' => $request->supplier,
                 'stok' => str_replace(',', '.', $request->stok),
             ]);
             //dd($data);
             $simpan = DB::table('master_barang')->Insert($data);
+            //dd($simpan);
             return redirect()->back()->with('message', 'Data Berhasil Disimpan');
 
         } catch (exception $th) {
@@ -323,6 +323,7 @@ class MasterController extends Controller
             return redirect()->back()->with('message', 'Data GAGAL Disimpan');
 
         }
+
     }
 
     public function store_koki(Request $request)
@@ -378,7 +379,8 @@ class MasterController extends Controller
             //dd($data);
             $simpan = DB::table('paymentvoucher')->Insert($data);
             $id_po = DB::table('purchasing_order')->where('no_purchasing_order',$request->no_po)->first();
-            $ubah = DB::table('suratterimabarang')->where('no_stb', $id_po->id_po)->update(['status_stb' => 1]);
+            $ubah = DB::table('suratterimabarang')->where('id_po', $id_po->id_po)->update(['status_stb' => 1]);
+            //dd($id_po,$ubah);
             return redirect()->back()->with('message', 'Data Berhasil Disimpan');
 
         } catch (exception $th) {
@@ -492,6 +494,7 @@ class MasterController extends Controller
             ->join('purchasing_order', 'purchasing_order.no_purchasing_order', 'paymentvoucher.no_purchasing_order')
             ->join('master_barang', 'master_barang.id_barang', 'paymentvoucher.id_barang')
             ->join('supplier', 'supplier.id_supp', 'paymentvoucher.no_supplier')
+            ->where('paymentvoucher.id_pv',$id_pv)
             ->get();
 
         // dd($data);
@@ -506,5 +509,34 @@ class MasterController extends Controller
         $name = 'LHV - ' . uniqid() . '.pdf';
         // return $pdf->download($name);
         return $pdf->stream('PV-' . uniqid() . '.pdf');
+    }
+
+    public function update_barang(Request $request){
+        try {
+           
+            //dd($request->harga_edit,str_replace('.','',$request->harga_edit));
+            $ubah = DB::table('master_barang')->where('id_barang', $request->id_barang_edit)
+            ->update(['nama_barang'=>$request->nama_barang_edit]);
+
+            return redirect()->back()->with('message', 'Data Berhasil Ubah');
+
+        } catch (exception $th) {
+            return redirect()->back()->with('message', 'Data GAGAL Ubah');
+
+        }
+    }
+    public function update_supp(Request $request){
+        try {
+           
+            //dd($request->harga_edit,str_replace('.','',$request->harga_edit));
+            $ubah = DB::table('supplier')->where('id_supp', $request->id_supp_edit)
+            ->update(['nama_supp'=>$request->nama_supp_edit,'alamat'=>$request->alamat_edit, 'no_telp'=>$request->no_telp_edit]);
+
+            return redirect()->back()->with('message', 'Data Berhasil Ubah');
+
+        } catch (exception $th) {
+            return redirect()->back()->with('message', 'Data GAGAL Ubah');
+
+        }
     }
 }

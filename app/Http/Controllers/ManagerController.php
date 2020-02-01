@@ -74,6 +74,28 @@ class ManagerController extends Controller
 
         }
     }
+
+    public function update_employee(Request $request){
+        try {
+           
+            //dd($request->harga_edit,str_replace('.','',$request->harga_edit));
+            $ubah = DB::table('employee')->where('id_empl', $request->id_emp_edit)
+            ->update(['nama_empl'=>$request->nama_emp_edit, 'gender'=>$request->gender_edit, 'telp'=>$request->telp_edit, 'alamat'=>$request->alamat_edit,
+                'id_akun'=>$request->id_akun_edit, 'pass'=>$request->pass_edit, 'position'=>$request->position_edit]);
+            $data_user = ([
+                'name'=>$request->nama_emp_edit,
+                'password' =>Hash::make($request->pass_edit),
+                'status'=>$request->position_edit,
+            ]);
+            $update = DB::table('users')->where('email', $request->email_edit)->update($data_user);
+            return redirect()->back()->with('message', 'Data Berhasil Ubah');
+
+        } catch (exception $th) {
+            return redirect()->back()->with('message', 'Data GAGAL Ubah');
+
+        }
+    }
+
     public function get_data_emp($id_emp){
         $data = DB::table('employee')
         ->where('id_empl',$id_emp)

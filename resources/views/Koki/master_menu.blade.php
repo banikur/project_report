@@ -154,6 +154,9 @@ Dashboard E-Report
                                         <th>
                                             <center>Kategori Menu</center>
                                         </th>
+                                        <th>
+                                        AKSI
+                                        </th>
                                         
                                     </tr>
                                 </thead>
@@ -169,7 +172,14 @@ Dashboard E-Report
                                         <td>Tidak Tersedia</td>
                                         @endif
                                         <td>{{$z->category}}</td>
-                                        
+                                        <td>
+                                        <center>
+                                            <button type="button" data-item="{{$z->id_menu}}" id="edit_menu"
+                                                onclick="modal_menu(this)" class="btn btn-primary btn-sm"><i
+                                                    class="fa fa-eye" aria-hidden="true"></i>&nbsp;
+                                            </button>
+                                        </center>
+                                    </td>
                                     </tr>
                                     @endforeach
 
@@ -183,6 +193,50 @@ Dashboard E-Report
     </div>
 </div>
 
+<div class="modal fade bs-example-modal-lg" id="modal_menu" tabindex="-1" role="dialog" aria-hidden="true"
+    data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #1aa3ff">
+                <h2 class="modal-title" id="myModalLabel" style="color: whitesmoke;">Ubah Status Menu</h2>
+            </div>
+            <form id="verif_invoice" class="form-horizontal" action="{{url('/Koki/update_menu')}}" method="POST">
+                <div class="modal-body">
+                    {{csrf_field()}}
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Nama Menu</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" readonly="" autocomplete="false"
+                                name="nama_menu_edit" id="nama_menu_edit">
+                                <input type="hidden" class="form-control" required="" autocomplete="false"
+                                name="id_menu_edit" id="id_menu_edit">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Price</label>
+                        <div class="col-sm-9">
+                            <input class="form-control money" type="text" name="harga_edit" autocomplete="false" id="harga_edit">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Status</label>
+                        <div class="col-sm-7">
+                                        <label class="checkbox-inline"><input type="checkbox"
+                                                name="status_edit">Tersedia</label>
+                                        <p style="color:red; font-size: x-small;">*) Harap Checklist Bila Tersedia</p>
+
+                                    </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer" id="modal_footer">
+                    <button type="button" onclick="return konfirmasi2()" class="btn btn-success">Simpan</button> 
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Kembali</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @endsection
 @section('js')
@@ -190,7 +244,43 @@ Dashboard E-Report
 $(document).ready(function() {
     setMask();
     $('#dt_basic_1').dataTable();
+
 })
+const numberFormat = (value, decimals, decPoint, thousandsSep) => {
+    decPoint = decPoint || '.';
+    decimals = decimals !== undefined ? decimals : 2;
+    thousandsSep = thousandsSep || ' ';
+
+    if (typeof value === 'string') {
+        value = parseFloat(value);
+    }
+
+    let result = value.toLocaleString('en-US', {
+        maximumFractionDigits: decimals,
+        minimumFractionDigits: decimals
+    });
+
+    let pieces = result.split('.');
+    pieces[0] = pieces[0].split(',').join(thousandsSep);
+
+    return pieces.join(decPoint);
+};
+
+function modal_menu(button) {
+    $('#modal_menu').modal('show');
+    var id = $(button).data('item');
+    //alert(id_supp);
+    $.get('{{URL::to("/Koki/get_detail_menu/")}}/' + id, function(data) {
+        json = JSON.parse(data);
+        console.log(json);
+        $('#id_menu_edit').val(json[0].id_menu);
+        $('#nama_menu_edit').val(json[0].nama_menu);
+        $('#harga_edit').val(json[0].price);
+        $('#status_edit').val(json[0].status_menu);
+    });
+}
+
+
 
 function konfirmasi() {
     event.preventDefault(); // prevent form submit
@@ -218,5 +308,32 @@ function konfirmasi() {
     })
 
 }
+function konfirmasi2() {
+    event.preventDefault(); // prevent form submit
+    var form = event.target.form; // storing the form
+
+    Swal.fire({
+        title: 'Apakah Data yang di Masukan Sudah Benar ?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5cb85c',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Batal',
+        allowOutsideClick: false,
+    }).then((result) => {
+        if (result.value) {
+            form.submit();
+        } else {
+            Swal.fire({
+                title: "Batal memverifikasi",
+                type: "error",
+                allowOutsideClick: false,
+            })
+        }
+    })
+
+}
+
 </script>
 @endsection
