@@ -52,6 +52,12 @@ Dashboard E-Report
                         <div class="col-lg-3">
                             <div class="well">
                                 <p>ID TRANSAKSI : {{$item->id_trans}}</p>
+                                @if(!empty($item->id_meja))
+                                No Meja : {{$item->id_meja}}
+                                @else
+                                Take Away
+                                @endif
+                                <hr/>
                                 <input type="hidden" name="id_transaksi" value="{{$item->id_trans}}" />
                                 <ul>
                                     @foreach($transaksi_detail as $detail)

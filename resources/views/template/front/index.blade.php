@@ -69,6 +69,7 @@ Header
 
         <div class="intro-info">
             <h2 style="color:#004289;">Big Pop Coffee</h2>
+            <a href="{{url('/Costumer/costumer-table')}}" class="btn btn-lg btn-outline-dark">Pesan Sekarang &nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i/></a>
         </div>
 
     </div>

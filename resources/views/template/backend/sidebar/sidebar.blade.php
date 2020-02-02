@@ -64,6 +64,13 @@
             <li>
                 <a href="{{url('/Purchasing/cetak_pv')}}" title="Purchasing Voucher Cetak"><i class="fa fa-lg fa-fw fa-print"></i> <span class="menu-item-parent">Cetak PV</span></a>
             </li>
+            @elseif(Auth::guard('cashier')->check())
+            <li>
+                <a href="{{url('/Cashier/cashier')}}" title="Cashier"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Cashier</span></a>
+            </li>
+            <li>
+                <a href="{{url('/Cashier/check-out')}}" title="Check-Out"><i class="fa fa-lg fa-fw fa-unlock-alt"></i> <span class="menu-item-parent">Reset Table</span></a>
+            </li>
         @endif
             <!-- <li>
                 <a href="#"><i class="fa fa-lg fa-fw fa-gear"></i> <span class="menu-item-parent">Profile Perusahaan</span></a>

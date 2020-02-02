@@ -15,6 +15,13 @@ Route::get('/', function () {
     return view('template.front.index');
 });
 
+Route::get('Costumer/costumer-menu', 'CostumerController@index')->name('costumer');
+Route::get('Costumer/costumer-table', 'CostumerController@pilih_meja')->name('costumer');
+Route::get('/Costumer/cek_menu/{id}', 'CostumerController@getmenu')->name('co.getmenu');
+Route::get('/Costumer/get_detail_menu/{id}', 'CostumerController@get_detail_menu')->name('co.get_detail_menu');
+Route::post('/Costumer/store_table', 'CostumerController@store_table')->name('store_table');
+Route::post('/Costumer/store_trans', 'CostumerController@store_trans')->name('co.store_transs');
+
 Route::get('/employee', 'MasterController@employee')->name('employee')->middleware('auth:manager');
 
 Auth::routes();
@@ -29,11 +36,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::name('Cashier')->middleware('auth:cashier')->group(function () {
     Route::get('/Cashier/cashier', 'CashierController@index')->name('cashier');
+    Route::get('/Cashier/check-out', 'CashierController@checkout')->name('checkout');
     Route::get('/Cashier/cek_menu/{id}', 'CashierController@getmenu')->name('getmenu');
     Route::get('/Cashier/get_detail_menu/{id}', 'CashierController@get_detail_menu')->name('get_detail_menu');
     Route::get('/Cashier/get_supplier/{id}', 'CashierController@getmenu')->name('getmenu');
     Route::post('/Cashier/store_trans', 'CashierController@store_trans')->name('store_trans');
     Route::get('/Cashier/cetak_struk/{id}', 'CashierController@cetak_struk')->name('cetak_struk');
+    Route::post('/Cashier/finishing', 'CashierController@finishing')->name('finishing');
 
 });
 

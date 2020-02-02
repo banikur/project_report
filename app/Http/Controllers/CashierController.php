@@ -31,7 +31,18 @@ class CashierController extends Controller
         $data['kategori'] = DB::table('categorymenu')->get();
         $data['transaksi'] = DB::table('trans')->get();
         //dd($data);
-        return view('cashier', $data);
+        return view('cashier_trans', $data);
+    }
+    public function checkout()
+    {
+        $data['user'] = Auth::user();
+        $data['transaksi'] = DB::table('trans')
+            ->get();
+        $data['transaksi_detail'] = DB::table('transdet')
+            ->join('menu_restoran', 'transdet.id_menu', 'menu_restoran.id_menu')
+            ->get();
+
+        return view('list_order_table', $data);
     }
 
     public function getmenu($id_cat)
@@ -119,8 +130,42 @@ class CashierController extends Controller
 
     }
 
-    public function cetak_struk($id_transaksi, $total_bayar, $kembalian)
+    public function finishing(Request $request)
     {
+        $id_transaksi = $request->id_transaksi;
 
+        try {
+            $transaksi = DB::table('trans')->where('id_trans',$id_transaksi)
+            ->get();
+            $transaksi_detail = DB::table('transdet')
+            ->join('menu_restoran', 'transdet.id_menu', 'menu_restoran.id_menu')
+            ->where('id_trans', $id_transaksi)
+            ->get();
+            $bayar = 0;
+            $kembalian  = 0;
+            if ($transaksi[0]->status == null) {
+                set_time_limit(600);
+                $pdf = PDF::setOptions([
+                    'enable_remote' => true,
+                    'images' => true,
+                ])
+                    ->loadView('cetak_struk',
+                        compact('transaksi', 'transaksi_detail', 'bayar', 'kembalian'))
+                    ->setPaper('a6', 'potrait');
+                $name = 'TRX - ' . uniqid() . '.pdf';
+                return $pdf->download($name);
+            }else {
+                $cek = DB::table('trans')->where('id_trans',$id_transaksi)
+                ->get();
+                $id_table= $cek[0]->id_meja;
+                $update = DB::table('tbl_meja')->where('id_meja',$id_table)
+                ->update(['status' => 't']);
+                $ubah = DB::table('trans')->where('id_trans', $id_transaksi)->update(['status' => 2]);
+                return redirect()->back()->with('message', 'Data Berhasil Disimpan');
+            }
+        } catch (exception $th) {
+            return redirect()->back()->with('message', 'Data GAGAL Disimpan');
+
+        }
     }
 }
