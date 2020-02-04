@@ -112,5 +112,15 @@ class ManagerController extends Controller
         
         return view('manager.transaksi',$data);
     }
+    public function purchase_order(){
+        $data['user'] = Auth::user();
+        $data['suratterimabarang'] = DB::table('suratterimabarang')->get();
+        $data['purchasing_order'] = DB::table('purchasing_order')
+            ->join('permintaan_pembelian', 'purchasing_order.id_pp', 'permintaan_pembelian.id_pp')
+            ->join('master_barang', 'permintaan_pembelian.id_barang', 'master_barang.id_barang')
+            ->join('supplier', 'purchasing_order.no_supplier', 'supplier.id_supp')
+            ->get();
+        return view('manager.purchasing_order',$data);
+    }
 
 }
