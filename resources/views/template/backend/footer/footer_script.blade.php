@@ -87,6 +87,7 @@
 
 <!-- PAGE RELATED PLUGIN(S) -->
 <script src="{{url('backend_layout/js/plugin/datatables/jquery.dataTables.min.js')}}"></script>
+
 <script src="{{url('backend_layout/js/plugin/datatables/dataTables.colVis.min.js')}}"></script>
 <script src="{{url('backend_layout/js/plugin/datatables/dataTables.tableTools.min.js')}}"></script>
 <script src="{{url('backend_layout/js/plugin/datatables/dataTables.bootstrap.min.js')}}"></script>

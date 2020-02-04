@@ -106,4 +106,11 @@ class ManagerController extends Controller
         }
         return $sumberBB;
     }
+    
+    public function transaksi(){
+        $data['employee'] = DB::table('trans')->get();
+        
+        return view('manager.transaksi',$data);
+    }
+
 }

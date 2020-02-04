@@ -76,15 +76,16 @@ Dashboard E-Report
     }
 ?>
                         <div class="col-lg-5">
-                            <form method="post" class="form-horizontal" action="{{url('/Koki/store_menu')}}" id="menu_form">
+                            <form method="post" class="form-horizontal" action="{{url('/Koki/store_menu')}}"
+                                id="menu_form" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}" />
 
                                 <div class="form-group">
                                     <label for="petugas_survei" class="col-sm-4 control-label">
                                         ID Menu</label>
                                     <div class="col-sm-7">
-                                        <input class="form-control" type="text" value="{{$autonya_menu}}" readonly="" name="id_menu" id="id_menu"
-                                            autocomplete="off">
+                                        <input class="form-control" type="text" value="{{$autonya_menu}}" readonly=""
+                                            name="id_menu" id="id_menu" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -116,6 +117,13 @@ Dashboard E-Report
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        Gambar</label>
+                                    <div class="col-sm-7">
+                                        <input type="file" accept=".jpg" class="form-control" id="gambar" name="gambar">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="petugas_survei" class="col-sm-4 control-label">
                                         Status</label>
                                     &nbsp;&nbsp;&nbsp;
@@ -130,8 +138,9 @@ Dashboard E-Report
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label"></label>
                                     <div class="col-sm-7">
-                                        <button type="submit" onclick="konfirmasi()" class="btn btn-success btn-sm pull-right"><i
-                                                class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Simpan
+                                        <button type="submit" onclick="konfirmasi()"
+                                            class="btn btn-success btn-sm pull-right"><i class="fa fa-check"
+                                                aria-hidden="true"></i>&nbsp;&nbsp;Simpan
                                         </button>
                                     </div>
                                 </div>
@@ -155,9 +164,9 @@ Dashboard E-Report
                                             <center>Kategori Menu</center>
                                         </th>
                                         <th>
-                                        AKSI
+                                            AKSI
                                         </th>
-                                        
+
                                     </tr>
                                 </thead>
                                 <?php $no = 1;?>
@@ -173,13 +182,13 @@ Dashboard E-Report
                                         @endif
                                         <td>{{$z->category}}</td>
                                         <td>
-                                        <center>
-                                            <button type="button" data-item="{{$z->id_menu}}" id="edit_menu"
-                                                onclick="modal_menu(this)" class="btn btn-primary btn-sm"><i
-                                                    class="fa fa-eye" aria-hidden="true"></i>&nbsp;
-                                            </button>
-                                        </center>
-                                    </td>
+                                            <center>
+                                                <button type="button" data-item="{{$z->id_menu}}" id="edit_menu"
+                                                    onclick="modal_menu(this)" class="btn btn-primary btn-sm"><i
+                                                        class="fa fa-eye" aria-hidden="true"></i>&nbsp;
+                                                </button>
+                                            </center>
+                                        </td>
                                     </tr>
                                     @endforeach
 
@@ -200,7 +209,7 @@ Dashboard E-Report
             <div class="modal-header" style="background: #1aa3ff">
                 <h2 class="modal-title" id="myModalLabel" style="color: whitesmoke;">Ubah Status Menu</h2>
             </div>
-            <form id="verif_invoice" class="form-horizontal" action="{{url('/Koki/update_menu')}}" method="POST">
+            <form id="verif_invoice" enctype="multipart/form-data" class="form-horizontal" action="{{url('/Koki/update_menu')}}" method="POST">
                 <div class="modal-body">
                     {{csrf_field()}}
                     <div class="form-group">
@@ -208,29 +217,38 @@ Dashboard E-Report
                         <div class="col-sm-9">
                             <input type="text" class="form-control" readonly="" autocomplete="false"
                                 name="nama_menu_edit" id="nama_menu_edit">
-                                <input type="hidden" class="form-control" required="" autocomplete="false"
+                            <input type="hidden" class="form-control" required="" autocomplete="false"
                                 name="id_menu_edit" id="id_menu_edit">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Price</label>
                         <div class="col-sm-9">
-                            <input class="form-control money" type="text" name="harga_edit" autocomplete="false" id="harga_edit">
+                            <input class="form-control money" type="text" name="harga_edit" autocomplete="false"
+                                id="harga_edit">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-7">
-                                        <label class="checkbox-inline"><input type="checkbox"
-                                                name="status_edit">Tersedia</label>
-                                        <p style="color:red; font-size: x-small;">*) Harap Checklist Bila Tersedia</p>
+                            <label class="checkbox-inline"><input type="checkbox" name="status_edit">Tersedia</label>
+                            <p style="color:red; font-size: x-small;">*) Harap Checklist Bila Tersedia</p>
 
-                                    </div>
+                        </div>
                     </div>
-
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            Gambar</label>
+                        <div class="col-sm-4">
+                            <input type="file" accept=".jpg" class="form-control" id="gambar_edit" name="gambar_edit">
+                        </div>
+                        <div class="col-sm-5">
+                        <img id="gambar_database" style='max-width: 100%;' />
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer" id="modal_footer">
-                    <button type="button" onclick="return konfirmasi2()" class="btn btn-success">Simpan</button> 
+                    <button type="button" onclick="return konfirmasi2()" class="btn btn-success">Simpan</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Kembali</button>
                 </div>
             </form>
@@ -277,6 +295,7 @@ function modal_menu(button) {
         $('#nama_menu_edit').val(json[0].nama_menu);
         $('#harga_edit').val(json[0].price);
         $('#status_edit').val(json[0].status_menu);
+        $('#gambar_database').attr("src","../image_menu/"+json[0].url_pict)
     });
 }
 
@@ -308,6 +327,7 @@ function konfirmasi() {
     })
 
 }
+
 function konfirmasi2() {
     event.preventDefault(); // prevent form submit
     var form = event.target.form; // storing the form
@@ -334,6 +354,5 @@ function konfirmasi2() {
     })
 
 }
-
 </script>
 @endsection

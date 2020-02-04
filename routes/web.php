@@ -50,6 +50,7 @@ Route::name('Manager')->middleware('auth:manager')->group(function () {
     Route::get('/Manager/dashboard', 'ManagerController@index')->name('master');
     Route::get('/Manager/employee', 'ManagerController@employee')->name('employee');
     Route::get('/Manager/get_data_emp/{id}', 'ManagerController@get_data_emp')->name('get_data_emp');
+    Route::get('/Manager/transaksi', 'ManagerController@transaksi')->name('manager.transaksi');
 
     route::post('/Manager/store_employee', 'ManagerController@store_employee')->name('store_employee');
 
@@ -97,9 +98,11 @@ Route::name('Koki')->middleware('auth:koki')->group(function () {
     Route::get('/Koki/permintaan-pembelian', 'KokiController@permintaan_pembelian')->name('permintaan_pembelian');
     Route::post('/Koki/insert_pembelian', 'KokiController@insert_pembelian')->name('insert_pembelian');
     Route::get('/Koki/get_detail_barang/{id_barang}', 'KokiController@get_detail_barang')->name('get_detail_barang');
+    Route::get('/Koki/get_detail_menu/{id}', 'KokiController@get_detail_menu')->name('chef.get_detail_menu');
 
     Route::post('/Koki/store_menu', 'KokiController@store_menu')->name('chef.store_menu');
     Route::post('/Koki/update_status', 'KokiController@update_status')->name('chef.update_status');
+    Route::post('/Koki/update_menu', 'KokiController@update_menu')->name('chef.update_menu');
 
 });
 /*AHMAD ZAKKY*/

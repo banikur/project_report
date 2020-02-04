@@ -104,6 +104,9 @@ class KokiController extends Controller
             else {
                 $status='2';
             }
+            $bukti_bayar = $request->file('gambar');
+            $destination = public_path() . '/image_menu\\';
+            
             $data = ([
                 'id_menu' => $request->id_menu,
                 'nama_menu' => $request->menu,
@@ -111,6 +114,11 @@ class KokiController extends Controller
                 'status_menu' => $status,
                 'id_catMenu' => $request->category,
             ]);
+            if ($bukti_bayar != null) {
+                $nama_file2 = 'MN-' . uniqid() . '.' . $bukti_bayar->getClientOriginalExtension();
+                $bukti_bayar->move($destination, $nama_file2);
+                $data['url_pict'] = $nama_file2;
+            }
             //dd($data);
             $simpan = DB::table('menu_restoran')->Insert($data);
             return redirect()->back()->with('message', 'Data Berhasil Disimpan');
@@ -144,10 +152,20 @@ class KokiController extends Controller
             else {
                 $status='2';
             }
-            //dd($request->harga_edit,str_replace('.','',$request->harga_edit));
+            $bukti_bayar = $request->file('gambar_edit');
+            $destination = public_path() . '/image_menu\\';
+            $data = ([
+                'price' => $request->harga_edit,
+                'status_menu' => $status,
+            ]);
+            if ($bukti_bayar != null) {
+                $nama_file2 = 'MN-' . uniqid() . '.' . $bukti_bayar->getClientOriginalExtension();
+                $bukti_bayar->move($destination, $nama_file2);
+                $data['url_pict'] = $nama_file2;
+            }
             $ubah = DB::table('menu_restoran')->where('id_menu', $request->id_menu_edit)
-            ->update(['status_menu' => $status,'price'=>str_replace('.','',$request->harga_edit)]);
-
+            ->update($data);
+            //dd($data,$ubah);
             return redirect()->back()->with('message', 'Data Berhasil Disimpan');
 
         } catch (exception $th) {
