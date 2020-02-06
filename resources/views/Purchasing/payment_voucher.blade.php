@@ -224,9 +224,9 @@ Dashboard E-Report
                                     <th>
                                         <center>Qty STB</center>
                                     </th>
-                                    <th>
+                                    <!-- <th>
                                         <center>Sub total</center>
-                                    </th>
+                                    </th> -->
                                     <th>
                                         <center>Qty Purchasing Order</center>
                                     </th>
@@ -246,7 +246,7 @@ Dashboard E-Report
                                     <td>{{$no++}}</td>
                                     
                                     <td>{{number_format($item->qty,2,',','.')}}</td>
-                                    <td>Rp. {{number_format($item->sub_total,2,',','.')}}</td>
+                                    <!-- <td>Rp. {{number_format($item->sub_total,2,',','.')}}</td> -->
                                     @foreach($purchasing_order as $po)
                                     @if ($item->id_purchasing == $po->id_po)
                                     <td>{{number_format($po->qty_po,2,',','.')}}</td>
@@ -313,7 +313,6 @@ const numberFormat = (value, decimals, decPoint, thousandsSep) => {
 function get_data(button) {
     var id = $(button).data('item');
     var qty = $(button).data('qty');
-    var  subtotal = $(button).data('subtotal');
 
     var json = null;
     $.get('{{URL::to("Purchasing/get_stb/")}}/' + id, function(data) {
@@ -330,7 +329,9 @@ function get_data(button) {
             $('#id_stb').val(json[i].id_stb);
             $('#id_supp').val(json[i].no_supplier);
             $('#nama_supp').val(json[i].nama_supp);
-            $('#sub_total').val(numberFormat(subtotal, 2, ',', '.'));
+            //var  subtotal = '';
+
+            $('#sub_total').val(numberFormat(json[i].sub_total, 2, ',', '.'));
         }
     });
 

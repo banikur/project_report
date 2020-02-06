@@ -179,7 +179,7 @@ Dashboard E-Report
                                 <label class="col-sm-4 control-label">
                                     No. Supplier</label>
                                 <div class="col-sm-7">
-                                    <select id="supplier_edit" class="form-control" name="supplier_edit">
+                                    <select id="supplier_edit" class="form-control" name="supplier_edit" required>
                                         <option value="0" selected="" disabled="">-- PILIH --</option>
                                         @foreach($supplier as $sup)
                                         <option value="{{$sup->id_supp}}">{{$sup->nama_supp}}</option>
@@ -212,7 +212,7 @@ Dashboard E-Report
                                     Harga</label>
                                 <label class="col-sm-1 control-label">Rp. </label>
                                 <div class="col-sm-6">
-                                    <input style="text-align:right;" class="form-control" value="" readonly=""
+                                    <input style="text-align:right;" onkeyup="hitung()" class="form-control uang" value=""
                                         type="text" name="harga" id="harga" autocomplete="off">
                                 </div>
                             </div>
@@ -221,7 +221,7 @@ Dashboard E-Report
                                     Subtotal</label>
                                 <label class="col-sm-1 control-label">Rp. </label>
                                 <div class="col-sm-6">
-                                    <input style="text-align:right;" class="form-control" value="" readonly=""
+                                    <input style="text-align:right;" class="form-control cashier" value="" readonly=""
                                         type="text" name="sub_total" id="sub_total" autocomplete="off">
                                 </div>
                             </div>
@@ -229,7 +229,7 @@ Dashboard E-Report
                                 <label class="col-sm-4 control-label"></label>
                                 <div class="col-sm-7">
                                     <button type="submit" class="btn btn-success btn-sm pull-right"><i
-                                            class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Simpan</div>
+                                            class="fa fa-check"></i>&nbsp;&nbsp;Simpan</div>
                                 </button>
                             </div>
                         </div>
@@ -337,6 +337,14 @@ const numberFormat = (value, decimals, decPoint, thousandsSep) => {
     return pieces.join(decPoint);
 };
 
+function hitung() {
+    var harga = parseInt($('#harga').val());
+    var qty = parseInt($('#qty').val());
+    var total_bayar = harga * qty;
+
+    $('#sub_total').val(total_bayar);
+}
+
 function get_data(button) {
     var id = $(button).data('item');
     var json = null;
@@ -367,9 +375,9 @@ function get_data(button) {
             $('#qty ').val(json[i].qty_pp);
             $('#id_barang').val(json[i].id_barang);
             $('#id_pp').val(json[i].id_pp);
-            $('#harga').val(numberFormat(json[i].harga, 2, ',', '.'));
-            var total = json[i].qty_pp * json[i].harga;
-            $('#sub_total').val(numberFormat(total, 2, ',', '.'));
+            // $('#harga').val(numberFormat(json[i].harga, 2, ',', '.'));
+            // var total = json[i].qty_pp * json[i].harga;
+            // $('#sub_total').val(numberFormat(total, 2, ',', '.'));
         }
     });
 

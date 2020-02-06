@@ -150,7 +150,7 @@ Dashboard E-Report
                                 <label class="col-sm-4 control-label">
                                     Tanggal STB</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="tgl_stb" name="tgl_stb">
+                                    <input type="text" class="form-control" id="tgl_stb" name="tgl_stb" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -197,13 +197,13 @@ Dashboard E-Report
                                     <input class="form-control satu_angka" onchange="kalkulasi()" type="text" name="qty_stb" id="qty_stb">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="col-sm-4 control-label">
                                     Sub Total</label>
                                 <div class="col-sm-7">
                                     <input class="form-control" readonly="" type="text" name="sub_total" id="sub_total">
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">
                                     Bukti STB</label>

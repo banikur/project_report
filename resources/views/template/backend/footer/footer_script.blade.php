@@ -6,7 +6,7 @@
 <!-- END SHORTCUT AREA -->
 
 <!--================================================== -->
-
+</html>
 <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
 <script data-pace-options='{ "restartOnRequestAfter": true }'
     src="{{url('backend_layout/js/plugin/pace/pace.min.js')}}"></script>

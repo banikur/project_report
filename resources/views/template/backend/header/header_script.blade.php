@@ -1,9 +1,11 @@
+<!DOCTYPE HTML>
+<html>
 <head>
     <meta charset="utf-8">
     <title>@yield('title')</title>
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <meta charset = "UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <!-- #CSS Links -->
@@ -11,9 +13,6 @@
     <link rel="stylesheet" type="text/css" media="screen" href="{{url('backend_layout/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" media="screen" href="{{url('backend_layout/css/font-awesome.min.css')}}">
     
-    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-
     <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
     <link rel="stylesheet" type="text/css" media="screen"
         href="{{url('backend_layout/css/smartadmin-production-plugins.min.css')}}">

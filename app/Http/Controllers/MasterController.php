@@ -61,11 +61,12 @@ class MasterController extends Controller
             ->join('categorymenu', 'menu_restoran.id_catMenu', 'categorymenu.id_catMenu')
             ->orderBy('menu_restoran.id_menu', 'ASC')->get();
         $data['master_barang'] = DB::table('master_barang')
-            ->join('supplier', 'master_barang.id_supplier', 'supplier.id_supp')->get();
+            ->get();
 
         //dd($data);
         return view('Purchasing.permintaan_pembelian', $data);
     }
+
     public function permintaan_barang_koki()
     {
         $data['purchasing_order'] = DB::table('purchasing_order')->get();
@@ -310,7 +311,7 @@ class MasterController extends Controller
                 'id_barang' => $request->id_barang,
                 'qty_po' => str_replace('.', '', str_replace(',', '.', $request->qty)),
                 'harga_po' => str_replace('.', '', str_replace(',', '.', $request->harga)),
-                'sub_total' => str_replace('.', '', str_replace(',', '.', $request->sub_total)),
+                'sub_total' => str_replace(',', '.',str_replace('.', '', $request->sub_total)),
                 'status_po' => null,
                 'id_pp' => $request->id_pp,
             ]);
@@ -371,7 +372,7 @@ class MasterController extends Controller
                 'periode_pv' => $request->periode,
                 'id_barang' => $request->id_barang,
                 'qty' => $request->qty_stb,
-                'sub_total_pv' => str_replace('.', '', str_replace(',', '.', $request->sub_total)),
+                'sub_total_pv' => str_replace(',', '.',str_replace('.', '',  $request->sub_total)),
                 'no_supplier' => $request->id_supp,
                 'jenis_pembayaran' => $request->jenis_pembayaran,
                 'no_purchasing_order' => $request->no_po,
@@ -404,7 +405,7 @@ class MasterController extends Controller
                 'qty_stb' => str_replace('.', '', str_replace(',', '.', $request->qty_stb)),
                 'status_stb' => null,
                 'id_po' => $request->id_po,
-                'sub_total_stb' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
+                'sub_total_stb' =>null,
             ]);
             if ($bukti_bayar != null) {
                 if (!in_array($bukti_bayar->getClientOriginalExtension(), ['pdf', 'doc', 'docx'])) {
@@ -420,6 +421,7 @@ class MasterController extends Controller
             } else {
                 $sudah_masuk_inven = DB::table('suratterimabarang')->where('id_po', $request->id_po)->sum('qty_stb');
                 $total_stb = $sudah_masuk_inven + str_replace('.', '', str_replace(',', '.', $request->qty_stb));
+                
                 if ($total_stb == $request->qty_po) {
                     $ubah = DB::table('purchasing_order')->where('id_po', $request->id_po)->update(['status_po' => 1]);
                 }
@@ -525,6 +527,7 @@ class MasterController extends Controller
 
         }
     }
+
     public function update_supp(Request $request){
         try {
            

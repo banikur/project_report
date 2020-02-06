@@ -86,6 +86,7 @@ Route::name('Purchasing')->middleware('auth:purchasing')->group(function () {
     Route::post('/Purchasing/insert-pembelian', 'MasterController@insert_pembelian')->name('insert_pembelian');
     Route::post('/Purchasing/store_stb', 'MasterController@store_stb')->name('pu.store_stb');
     Route::post('/Purchasing/store_pv', 'MasterController@store_pv')->name('pu.store_pv');
+    Route::post('/Purchasing/update_barang', 'MasterController@update_barang')->name('pu.update_barang');
 
     // Route::post('/Purchasing/permintaan_pembelian', 'MasterController@permintaan_pembelian')->name('pu.permintaan_pembelian');
     // Route::post('/Purchasing/purchasing_order', 'MasterController@purchasing_order')->name('pu.purchasing_order');
