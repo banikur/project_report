@@ -52,6 +52,8 @@ Route::name('Manager')->middleware('auth:manager')->group(function () {
     Route::get('/Manager/get_data_emp/{id}', 'ManagerController@get_data_emp')->name('get_data_emp');
     Route::get('/Manager/transaksi', 'ManagerController@transaksi')->name('manager.transaksi');
     Route::get('/Manager/po', 'ManagerController@purchase_order')->name('manager.purchase_order');
+    
+    Route::get('/Manager/print_rekap/', 'ManagerController@cetak_rekap')->name('manager.cetak_rekap');
 
     route::post('/Manager/store_employee', 'ManagerController@store_employee')->name('store_employee');
 

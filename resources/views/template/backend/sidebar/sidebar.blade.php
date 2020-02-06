@@ -39,9 +39,9 @@
             <li>
                 <a href="{{url('/Manager/transaksi')}}" title="Laporan Transaksi"><i class="fa fa-lg fa-fw fa-archive"></i> <span class="menu-item-parent">Laporan Transaksi</span></a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="{{url('/Manager/po')}}" title="Laporan Purchasing Order"><i class="fa fa-lg fa-fw fa-archive"></i> <span class="menu-item-parent">Laporan PO</span></a>
-            </li>
+            </li> -->
         @elseif(Auth::guard('purchasing')->check())
             <li>
                 <a href="{{url('/Purchasing/master-dashboard')}}" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>

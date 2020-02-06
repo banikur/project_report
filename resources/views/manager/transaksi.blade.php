@@ -12,14 +12,15 @@ Dashboard E-Report
 @section('ribbon')
 <ol class="breadcrumb">
     <!-- <li>Dashboard</li> -->
-    <li class="pull-right"><?php echo date('j F, Y'); ?></li>
+    <li class="pull-right"></li>
+    <a target="_blank" href="{{url('Manager/print_rekap/')}}" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-print"></i> Print Rekap</a>
 </ol>
 @endsection
 @section('content')
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="row">
-            <div class="col-sm-12">                
+            <div class="col-sm-12">
                 <div class="row">
                     <div class="col-lg-12">
                         <?php $no = 1;?>
@@ -53,6 +54,44 @@ Dashboard E-Report
                                     @else
                                     <td>Meja {{$item->id_meja}}</td>
                                     @endif
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+                <hr/>
+                <br/>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?php $nos = 1;?>
+                        <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>No. Purchasing Order</th>
+                                    <th>Tanggal Order</th>
+                                    <th>Periode</th>
+                                    <th>Estimasi Arrival</th>
+                                    <th>Nama Supplier</th>
+                                    <th>Nama Barang</th>
+                                    <th>Jumlah Barang</th>
+                                    <th>Harga (satuan)</th>
+                                    <th>Sub Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="isiTableedit">
+                            @foreach($purchasing_order as $item)
+                                <tr>
+                                    <td>{{$item->no_purchasing_order}}</td>
+                                    <td>{{date("j, F Y", strtotime($item->tanggal_po))}}</td>
+                                    <td>{{$item->periode_po}}</td>
+                                    <td>{{date("j, F Y", strtotime($item->estimasi_arrival_po))}}</td>
+                                    <td>{{$item->nama_supp}}</td>
+                                    <td>{{$item->nama_barang}}</td>
+                                    <td>{{$item->qty_po}}</td>
+                                    <td>{{number_format($item->harga_po,2,',','.')}}</td>
+                                    <td>{{number_format($item->sub_total,2,',','.')}}</td>                                   
                                 </tr>
                                 @endforeach
                             </tbody>

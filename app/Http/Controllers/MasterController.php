@@ -137,6 +137,7 @@ class MasterController extends Controller
         $data['paymentvoucher'] = DB::table('paymentvoucher')->get();
         return view('Purchasing.payment_voucher', $data);
     }
+    
     public function cetak_pv()
     {
         $data['user'] = Auth::user();
