@@ -153,6 +153,11 @@
                     <th>{{$item->nama_supp}}</th>
                 </tr>
                 <tr>
+                    <td>harga PO</td>
+                    <td>:</td>
+                    <th>{{number_format($item->harga_po,2,',','.')}} {{$item->satuan}}</th>
+                </tr>
+                <tr>
                     <td>Jumlah</td>
                     <td>:</td>
                     <th>{{number_format($item->qty,2,',','.')}} {{$item->satuan}}</th>

@@ -40,7 +40,7 @@ Header
         <div class="logo float-left">
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <h1 class="text-light"><a href="#header"><span>NewBiz</span></a></h1> -->
-            <a href="#intro" class="scrollto"><img src="{{url('front_layout/img/minerba/logo-o.png')}}" alt="" class="img-fluid"></a>
+            <a href="{{route('login')}}" class="scrollto"><img src="{{url('front_layout/img/minerba/logo-o.png')}}" alt="" class="img-fluid"></a>
         </div>
 
         <nav class="main-nav float-right d-none d-lg-block">
@@ -50,7 +50,7 @@ Header
                 <li><a href="#services">Layanan</a></li>
                 <li><a href="#clients">Pihak Terkait</a></li>
                 <li><a href="#contact">Kontak Kami</a></li> -->
-                <li><a href="{{route('login')}}">Masuk</a></li>
+                 <!--<li><a href="{{route('login')}}">Masuk</a></li>-->
             </ul>
         </nav><!-- .main-nav -->
 

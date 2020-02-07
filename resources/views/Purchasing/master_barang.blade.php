@@ -153,6 +153,8 @@ Dashboard E-Report
                                             <option value="0" selected="" disabled="">-- PILIH --</option>
                                             <option value="Kg">Kg</option>
                                             <option value="Lt">Lt</option>
+                                            <option value="pcs">Pcs</option>
+                                            <option value="buah">Buah</option>
                                         </select>
                                     </div>
                                 </div>
@@ -277,8 +279,10 @@ Dashboard E-Report
                         <div class="col-sm-3">
                             <select id="satuan_edit" readonly="" class="form-control" name="satuan_edit">
                                 <option value="0" selected="" disabled="">-- PILIH --</option>
-                                <option value="Kg">Kg</option>
-                                <option value="Lt">Lt</option>
+                                            <option value="Kg">Kg</option>
+                                            <option value="Lt">Lt</option>
+                                            <option value="pcs">Pcs</option>
+                                            <option value="buah">Buah</option>
                             </select>
                         </div>
                     </div>

@@ -56,6 +56,9 @@ Route::name('Manager')->middleware('auth:manager')->group(function () {
     Route::get('/Manager/print_rekap/', 'ManagerController@cetak_rekap')->name('manager.cetak_rekap');
 
     route::post('/Manager/store_employee', 'ManagerController@store_employee')->name('store_employee');
+    route::post('/Manager/update_employee', 'ManagerController@update_employee')->name('update_employee');
+    
+
 
 });
 
@@ -89,6 +92,7 @@ Route::name('Purchasing')->middleware('auth:purchasing')->group(function () {
     Route::post('/Purchasing/store_stb', 'MasterController@store_stb')->name('pu.store_stb');
     Route::post('/Purchasing/store_pv', 'MasterController@store_pv')->name('pu.store_pv');
     Route::post('/Purchasing/update_barang', 'MasterController@update_barang')->name('pu.update_barang');
+    Route::post('/Purchasing/update_supp', 'MasterController@update_supp')->name('pu.update_supp');
 
     // Route::post('/Purchasing/permintaan_pembelian', 'MasterController@permintaan_pembelian')->name('pu.permintaan_pembelian');
     // Route::post('/Purchasing/purchasing_order', 'MasterController@purchasing_order')->name('pu.purchasing_order');

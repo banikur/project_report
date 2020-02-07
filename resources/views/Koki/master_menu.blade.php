@@ -224,7 +224,7 @@ Dashboard E-Report
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Price</label>
                         <div class="col-sm-9">
-                            <input class="form-control money" type="text" name="harga_edit" autocomplete="false"
+                            <input class="form-control cashier" type="text" name="harga_edit" autocomplete="false"
                                 id="harga_edit">
                         </div>
                     </div>

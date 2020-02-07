@@ -326,11 +326,11 @@ function selectmenu() {
         var url = "{{ URL::asset('/image_menu') }}";
         for (let i = 0; i < json.length; i++) {
             test +=
-                "<div class='col-md-3'><div class='well'><div class='form-group'><img style='max-width: 100%;' src='" +
+                "<div class='col-md-3'><div class='well'><div class='form-group'><img style='max-width: 100%;min-width: 100%; width:180px; height:180px;' src='" +
                 url + "/" + json[i].url_pict +
                 "'/><input type='hidden' readonly='' class='form-control' value='" +
                 json[i].id_menu +
-                "'>" + json[i].nama_menu + "<br/><button data-item='" + json[i].price +
+                "'><center>" + json[i].nama_menu + "</center><br/><center>Rp. "+numberFormat(json[i].price,2,',','.')+"</center><br/><button data-item='" + json[i].price +
                 "' data-menu='" + json[i].nama_menu +
                 "' data-id='" + json[i].id_menu +
                 "' type='button' onclick='passing_text(this)' class='btn btn-primary btn-lg btn-block'>Pilih</button></div></div></div>";
