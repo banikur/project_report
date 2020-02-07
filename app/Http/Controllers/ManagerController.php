@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use PDF;
+
 class ManagerController extends Controller
 {
     /**
@@ -122,16 +123,16 @@ class ManagerController extends Controller
     public function cetak_rekap()
     {
         $purchasing_order = DB::table('purchasing_order')
-        ->join('permintaan_pembelian', 'purchasing_order.id_pp', 'permintaan_pembelian.id_pp')
-        ->join('master_barang', 'permintaan_pembelian.id_barang', 'master_barang.id_barang')
-        ->join('supplier', 'purchasing_order.no_supplier', 'supplier.id_supp')
-        ->get();
+            ->join('permintaan_pembelian', 'purchasing_order.id_pp', 'permintaan_pembelian.id_pp')
+            ->join('master_barang', 'permintaan_pembelian.id_barang', 'master_barang.id_barang')
+            ->join('supplier', 'purchasing_order.no_supplier', 'supplier.id_supp')
+            ->get();
         $transaksi = DB::table('trans')->get();
         $totalpo = DB::table('purchasing_order')
-        ->join('permintaan_pembelian', 'purchasing_order.id_pp', 'permintaan_pembelian.id_pp')
-        ->join('master_barang', 'permintaan_pembelian.id_barang', 'master_barang.id_barang')
-        ->join('supplier', 'purchasing_order.no_supplier', 'supplier.id_supp')
-        ->sum('purchasing_order.sub_total');
+            ->join('permintaan_pembelian', 'purchasing_order.id_pp', 'permintaan_pembelian.id_pp')
+            ->join('master_barang', 'permintaan_pembelian.id_barang', 'master_barang.id_barang')
+            ->join('supplier', 'purchasing_order.no_supplier', 'supplier.id_supp')
+            ->sum('purchasing_order.sub_total');
 
         $total_transaksi = DB::table('trans')->sum('total');
 
@@ -142,11 +143,57 @@ class ManagerController extends Controller
             'images' => true,
         ])
             ->loadView('manager.rekap',
-                compact('purchasing_order','transaksi','total_transaksi','totalpo'))
+                compact('purchasing_order', 'transaksi', 'total_transaksi', 'totalpo'))
             ->setPaper('a4', 'potrait');
         $name = 'LHV - ' . uniqid() . '.pdf';
         // return $pdf->download($name);
         return $pdf->stream('PV-' . uniqid() . '.pdf');
+    }
+
+    public function getdatafilter($daterange)
+    {
+        $tanggal = explode('-', $daterange);
+
+        $tanggal_start = base64_decode($tanggal[0]);
+        $tanggal_end = base64_decode($tanggal[1]);
+
+        $purchasing_order = DB::table('purchasing_order')
+            ->join('permintaan_pembelian', 'purchasing_order.id_pp', 'permintaan_pembelian.id_pp')
+            ->join('master_barang', 'permintaan_pembelian.id_barang', 'master_barang.id_barang')
+            ->join('supplier', 'purchasing_order.no_supplier', 'supplier.id_supp')
+            ->whereBetween('tanggal_po', array($tanggal_start, $tanggal_end))
+            ->get();
+
+        $transaksi = DB::table('trans')
+            ->whereBetween('tanggal', array($tanggal_start, $tanggal_end))
+            ->get();
+        if (Count($purchasing_order) != "null") {
+            $totalpo = DB::table('purchasing_order')
+                ->join('permintaan_pembelian', 'purchasing_order.id_pp', 'permintaan_pembelian.id_pp')
+                ->join('master_barang', 'permintaan_pembelian.id_barang', 'master_barang.id_barang')
+                ->join('supplier', 'purchasing_order.no_supplier', 'supplier.id_supp')
+                ->whereBetween('tanggal_po', array($tanggal_start, $tanggal_end))
+                ->sum('purchasing_order.sub_total');
+        } else {
+            $totalpo = 0;
+        }
+
+        $total_transaksi = DB::table('trans')
+            ->whereBetween('tanggal', array($tanggal_start, $tanggal_end))
+            ->sum('total');
+
+        //dd($purchasing_order,$transaksi);
+        set_time_limit(600);
+        $pdf = PDF::setOptions([
+            'enable_remote' => true,
+            'images' => true,
+        ])
+            ->loadView('manager.rekap',
+                compact('purchasing_order', 'transaksi', 'total_transaksi', 'totalpo', 'tanggal_start', 'tanggal_end'))
+            ->setPaper('a4', 'potrait');
+        $name = 'LHV - ' . uniqid() . '.pdf';
+        // return $pdf->download($name);
+        return $pdf->stream('Rekap-' . uniqid() . '.pdf');
     }
     public function purchase_order()
     {

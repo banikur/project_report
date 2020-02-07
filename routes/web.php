@@ -54,6 +54,8 @@ Route::name('Manager')->middleware('auth:manager')->group(function () {
     Route::get('/Manager/po', 'ManagerController@purchase_order')->name('manager.purchase_order');
     
     Route::get('/Manager/print_rekap/', 'ManagerController@cetak_rekap')->name('manager.cetak_rekap');
+    
+    Route::get('/Manager/getdatafilter/{param}', 'ManagerController@getdatafilter')->name('manager.getdatafilter');
 
     route::post('/Manager/store_employee', 'ManagerController@store_employee')->name('store_employee');
     route::post('/Manager/update_employee', 'ManagerController@update_employee')->name('update_employee');

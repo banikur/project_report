@@ -105,9 +105,16 @@
                     <td style="width: 20%;">
                     </td>
                     <td align="center" style="width: inherit;">
+                        @if(!empty($tanggal_start))
+                        <center>
+                            <h2>Rekap {{tgl_indo(date('Y-m-d',strtotime($tanggal_start)))}} S/d
+                                {{tgl_indo(date('Y-m-d',strtotime($tanggal_end)))}}</h2>
+                        </center>
+                        @else
                         <center>
                             <h2>Rekap {{date('F Y')}}</h2>
                         </center>
+                        @endif
                     </td>
                     <td align="left" style="width: 20%;">
                     </td>
@@ -214,9 +221,11 @@
         </table>
         <table width="100%">
             <tbody>
-            <?php $hasil =$totalpo -  $total_transaksi?>
+                <?php $hasil =$totalpo -  $total_transaksi?>
                 <tr>
-                    <td align="left" colspan="2" style="width: 30%; height: 2%;">Jumlah Pengeluaran: {{number_format($totalpo,2,',','.')}} - {{number_format($total_transaksi,2,',','.')}} = Rp. {{number_format($hasil,2,',','.')}}</td>
+                    <td align="left" colspan="2" style="width: 30%; height: 2%;">Jumlah Pengeluaran:
+                        {{number_format($totalpo,2,',','.')}} - {{number_format($total_transaksi,2,',','.')}} = Rp.
+                        {{number_format($hasil,2,',','.')}}</td>
                     <td align="left" style="width: 30%; height: 2%;">&nbsp;</td>
                 </tr>
             </tbody>

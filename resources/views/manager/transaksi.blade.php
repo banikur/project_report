@@ -13,7 +13,8 @@ Dashboard E-Report
 <ol class="breadcrumb">
     <!-- <li>Dashboard</li> -->
     <li class="pull-right"></li>
-    <a target="_blank" href="{{url('Manager/print_rekap/')}}" class="btn btn-primary"><i class="fa fa-lg fa-fw fa-print"></i> Print Rekap</a>
+    <a target="_blank" href="{{url('Manager/print_rekap/')}}" class="btn btn-primary"><i
+            class="fa fa-lg fa-fw fa-print"></i> Print Rekap</a>
 </ol>
 @endsection
 @section('content')
@@ -22,9 +23,59 @@ Dashboard E-Report
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">
+                    <div class="col-sm-10 col-md-offset-1">
+                        <form id="formFilter">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    Filter
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                Mulai Dari Tanggal</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" id="tgl_start" name="tgl_start">
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                                  -                                     
+                                        </div>
+                                        <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                Sampai Tanggal</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" id="tgl_end" name="tgl_end">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a target="_blank" id="filter1" class="btn btn-success btn-block">
+                                                Filter
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-12">
                         <?php $no = 1;?>
-                        <table id="datatable_tabletools" class="table table-striped table-bordered table-hover" width="100%">
+                        <table id="datatable_tabletools" class="table table-striped table-bordered table-hover"
+                            width="100%">
                             <thead>
                                 <tr>
                                     <th>
@@ -60,9 +111,9 @@ Dashboard E-Report
                         </table>
                     </div>
                 </div>
-                <br/>
-                <hr/>
-                <br/>
+                <br />
+                <hr />
+                <br />
                 <div class="row">
                     <div class="col-lg-12">
                         <?php $nos = 1;?>
@@ -81,7 +132,7 @@ Dashboard E-Report
                                 </tr>
                             </thead>
                             <tbody id="isiTableedit">
-                            @foreach($purchasing_order as $item)
+                                @foreach($purchasing_order as $item)
                                 <tr>
                                     <td>{{$item->no_purchasing_order}}</td>
                                     <td>{{date("j, F Y", strtotime($item->tanggal_po))}}</td>
@@ -91,7 +142,7 @@ Dashboard E-Report
                                     <td>{{$item->nama_barang}}</td>
                                     <td>{{$item->qty_po}}</td>
                                     <td>{{number_format($item->harga_po,2,',','.')}}</td>
-                                    <td>{{number_format($item->sub_total,2,',','.')}}</td>                                   
+                                    <td>{{number_format($item->sub_total,2,',','.')}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -108,8 +159,29 @@ Dashboard E-Report
 <script>
 $(document).ready(function() {
     setMask();
-    
+    flatpickr("#tgl_start", {
+        altInput: true,
+        altFormat: "d-m-Y",
+        dateFormat: "Y-m-d",
+    });
+    flatpickr("#tgl_end", {
+        altInput: true,
+        altFormat: "d-m-Y",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+    });
 })
+$("#filter1").click(function() {
+    var tgl_end = $('#tgl_end').val();
+    var tgl_start = $('#tgl_start').val();
+    var drnp = btoa(tgl_start) + "-" + btoa(tgl_end);
+    //alert(drnp);
+    var urlf = "{{URL::to('/Manager/getdatafilter/')}}/" + drnp;
+    //alert(urlf);
+
+    $('#filter1').attr("href",urlf);
+    //$('#datarealisasi').DataTable().ajax.url(urlf).load();
+});
 
 function modal_employee(button) {
     $('#modal_employee').modal('show');
