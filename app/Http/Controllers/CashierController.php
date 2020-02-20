@@ -133,7 +133,7 @@ class CashierController extends Controller
     public function finishing(Request $request)
     {
         $id_transaksi = $request->id_transaksi;
-
+        // dd($request->kembalian,$request->cash);
         try {
             $transaksi = DB::table('trans')->where('id_trans',$id_transaksi)
             ->get();
@@ -141,8 +141,8 @@ class CashierController extends Controller
             ->join('menu_restoran', 'transdet.id_menu', 'menu_restoran.id_menu')
             ->where('id_trans', $id_transaksi)
             ->get();
-            $bayar = 0;
-            $kembalian  = 0;
+            $bayar = $request->cash;
+            $kembalian  = $request->kembalian;
             if ($transaksi[0]->status == null) {
                 set_time_limit(600);
                 $pdf = PDF::setOptions([

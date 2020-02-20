@@ -55,29 +55,56 @@ Dashboard E-Report
                                 <p>ID TRANSAKSI : {{$item->id_trans}}</p>
                                 <input type="hidden" name="id_transaksi" value="{{$item->id_trans}}" />
                                 <ul>
-                                    <li>{{$item->id_meja}}</li>
-                                    <li></li>
+                                    <li>Nomor Meja : {{$item->id_meja}}</li>
+
                                     @foreach($transaksi_detail as $detail)
                                     @if($item->id_trans == $detail->id_trans)
                                     <li>{{$detail->nama_menu}} ({{$detail->qty}})</li>
                                     @endif
                                     @endforeach
+                                    
                                 </ul>
                                 <hr />
+                                    <div class="form-group">
+                                        <label for="petugas_survei" class="col-sm-4">
+                                            Total</label>
+                                            <div class="col-sm-7">Rp. {{number_format($item->total,2,',','.')}}</div>
+                                        <input type="hidden" class="form-control total" readonly="" name="total"
+                                            value="{{number_format($item->total,2,',','.')}}" />
+                                    </div>
+                                    @if($item->status == 1)
+                                    @else
+                                    <div class="form-group">
+                                        <label for="petugas_survei" class="col-sm-4">
+                                            Cash </label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control cashier" name="cash" />
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-group">
+                                        <label class="col-sm-12">
+                                            Kembalian  Rp. <label id="label_kembali"></label>
+                                            <input class="form-control" readonly="" type="hidden" name="kembalian"
+                                                id="kembalian">
+                                        </label>
+                                    </div>
+                                    @endif
+                                <hr />
                                 <center>
-                                @if($item->status == 1)
+                                    @if($item->status == 1)
                                     <button type="button" onclick="checkout(this)" data-item="{{$item->id_trans}}"
                                         class="btn btn-primary">
                                         <i class="fa fa-check"></i> &nbsp;&nbsp; Check-Out
                                     </button>
-                                @else
-                                <button type="button" onclick="konfirmasi(this)" data-item="{{$item->id_trans}}"
+                                    @else
+                                    <button type="button" onclick="konfirmasi(this)" data-item="{{$item->id_trans}}"
                                         class="btn btn-primary">
                                         <i class="fa fa-print"></i> &nbsp;&nbsp;Print
                                     </button>
                                     &nbsp;&nbsp;&nbsp;
-                                    
-                                @endif
+
+                                    @endif
                                 </center>
                             </div>
                         </div>
@@ -101,8 +128,38 @@ Dashboard E-Report
 $(document).ready(function() {
     setMask();
 })
+const numberFormat = (value, decimals, decPoint, thousandsSep) => {
+    decPoint = decPoint || '.';
+    decimals = decimals !== undefined ? decimals : 2;
+    thousandsSep = thousandsSep || ' ';
 
+    if (typeof value === 'string') {
+        value = parseFloat(value);
+    }
+
+    let result = value.toLocaleString('en-US', {
+        maximumFractionDigits: decimals,
+        minimumFractionDigits: decimals
+    });
+
+    let pieces = result.split('.');
+    pieces[0] = pieces[0].split(',').join(thousandsSep);
+
+    return pieces.join(decPoint);
+};
 function konfirmasi(button) {
+    var x = $(".total").val();
+    var c = x.split('.').join("");
+    var total = c.split(',').join(".");
+
+    var a = $(".cashier").val();
+    var b = a.split('.').join("");
+    var bayar = b.split(',').join(".");
+
+    var due = bayar - total;
+    $("#label_kembali").html(numberFormat(due, 2, ',', '.'));
+    $('#kembalian').val(numberFormat(due, 2, ',', '.'));
+    // alert(due);
     event.preventDefault(); // prevent form submit
     var form = event.target.form; // storing the form
     Swal.fire({
@@ -157,7 +214,7 @@ function checkout() {
 function konfirmasis(button) {
     var id = $(button).data('item');
     Swal.fire({
-        title: 'Cetak Transaksi '+id+' ?',
+        title: 'Cetak Transaksi ' + id + ' ?',
         input: 'text',
         type: 'warning',
         inputPlaceholder: 'Cash :',
